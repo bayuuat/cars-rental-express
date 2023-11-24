@@ -1,30 +1,15 @@
-import { Express, Request, Response } from "express";
+import { Request, Response } from "express";
 import { Users } from "./users.model";
 import argon2 from "argon2";
-import { UsersServices } from "./users.services";
 import { createJwtToken } from "../../utils/jwt";
-import { authenticateToken } from "../../middlewares/auth";
 import { NotFoundError } from "objection";
+import usersServices from "./users.services";
 
-export class UsersController {
-	app: Express;
-	private usersServices: UsersServices;
-
-	constructor(app: Express) {
-		this.app = app;
-		this.usersServices = new UsersServices();
-	}
-
-	init() {
-		this.app.post("/login", (req, res) => this.login(req, res));
-		this.app.post("/register", (req, res) => this.register(req, res));
-		this.app.get("/profile", authenticateToken, (req, res) => this.profile(req, res));
-	}
-
-	async login(req: Request, res: Response) {
+class UsersController {
+	public async login(req: Request, res: Response) {
 		try {
 			const { email, password } = req.body as Omit<Users, "id">;
-			const user = await this.usersServices.checkEmail(email);
+			const user = await usersServices.checkEmail(email);
 
 			if (await argon2.verify(user.password, password)) {
 				const token = createJwtToken({ email: user.email, id: user.id });
@@ -40,7 +25,7 @@ export class UsersController {
 		}
 	}
 
-	async profile(req: Request, res: Response) {
+	public async profile(req: Request, res: Response) {
 		try {
 			return res.status(200).json(req.user);
 		} catch (error) {
@@ -52,17 +37,17 @@ export class UsersController {
 		}
 	}
 
-	async register(req: Request, res: Response) {
+	public async register(req: Request, res: Response) {
 		try {
 			const { email, password } = req.body as Omit<Users, "id">;
-			const user = await this.usersServices.checkEmail(email);
+			const user = await usersServices.checkEmail(email);
 
 			if (user) {
 				return res.status(400).json({ message: "Email already registered!" });
 			}
 
 			const hashedPass = await argon2.hash(password);
-			const result = await this.usersServices.createUser({ email: email, password: hashedPass });
+			const result = await usersServices.createUser({ email: email, password: hashedPass });
 
 			if (!result) {
 				return res.status(500).json({ message: "Error when creating register!" });
@@ -75,3 +60,5 @@ export class UsersController {
 		}
 	}
 }
+
+export default new UsersController();

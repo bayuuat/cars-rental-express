@@ -1,8 +1,8 @@
 import { CarsModel } from "./cars.model";
 import { Request } from "express";
 
-export class CarsServices {
-	async getCars(req: Request) {
+class CarsServices {
+	public async getCars(req: Request) {
 		const { manufacture, model, type } = req.query;
 		const qCars = CarsModel.query();
 
@@ -20,7 +20,7 @@ export class CarsServices {
 		return cars;
 	}
 
-	async findCar(id: string) {
+	public async findCar(id: string) {
 		try {
 			const car = await CarsModel.query().findById(id);
 			return car;
@@ -30,7 +30,7 @@ export class CarsServices {
 		}
 	}
 
-	async createCar(body: object) {
+	public async createCar(body: object) {
 		try {
 			const car = await CarsModel.query().insert(body).returning("*");
 			return car;
@@ -40,7 +40,7 @@ export class CarsServices {
 		}
 	}
 
-	async updateCar(id: string, body: object) {
+	public async updateCar(id: string, body: object) {
 		try {
 			const car = await CarsModel.query().findById(id).patch(body);
 			return car;
@@ -50,7 +50,7 @@ export class CarsServices {
 		}
 	}
 
-	async deleteCar(id: string) {
+	public async deleteCar(id: string) {
 		try {
 			const car = await CarsModel.query().deleteById(id);
 			return car;
@@ -60,3 +60,5 @@ export class CarsServices {
 		}
 	}
 }
+
+export default new CarsServices();
