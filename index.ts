@@ -5,20 +5,16 @@ import { Model } from "objection";
 import UISwaggerExpress from "swagger-ui-express";
 import { swaggerSpec } from "./generate-docs";
 import { CarsController } from "./features/cars/cars.controller";
-
-const knexInstance = Knex({
-	client: "postgresql",
-	connection: {
-		database: "my_db",
-		user: "username",
-		password: "password",
-	},
-});
-
-Model.knex(knexInstance);
+import * as config from "./knexfile";
 
 const app: Express = express();
 const port = 3000;
+const ENV = process.env.NODE_ENV || "development";
+
+// @ts-expect-error getting environtment
+const knexInstance = Knex(config[ENV]);
+
+Model.knex(knexInstance);
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));

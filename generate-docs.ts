@@ -5,11 +5,7 @@ const swaggerDefinition = {
   info: {
     title: "Binar Car Rentals",
     version: "1.0.0",
-    description: "Car Rental Binar made by Manda",
-    contact: {
-      name: "Manda",
-      url: "https://mandaputtra.id",
-    },
+    description: "Car Rental Binar made by Bayu Aditya T",
   },
   servers: [
     {

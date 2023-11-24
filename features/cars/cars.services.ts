@@ -1,34 +1,23 @@
-import { Redis } from "ioredis";
 import { CarsModel } from "./cars.model";
 import { Request } from "express";
-
-const redis = new Redis();
 
 export class CarsServices {
 	async getCars(req: Request) {
 		const { manufacture, model, type } = req.query;
-		const key = `cars:${JSON.stringify(req.query)}`;
-		const carsCache = await redis.getex(key);
+		const qCars = CarsModel.query();
 
-		if (carsCache) {
-			return carsCache;
-		} else {
-			const qCars = CarsModel.query();
-
-			if (manufacture) {
-				qCars.where("manufacture", "like", `%${manufacture}%`);
-			}
-			if (model) {
-				qCars.where("model", "like", `%${model}%`);
-			}
-			if (type) {
-				qCars.where("type", "like", `%${type}%`);
-			}
-
-			const cars = await qCars;
-			await redis.setex(key, 10, JSON.stringify(cars));
-			return cars;
+		if (manufacture) {
+			qCars.where("manufacture", "like", `%${manufacture}%`);
 		}
+		if (model) {
+			qCars.where("model", "like", `%${model}%`);
+		}
+		if (type) {
+			qCars.where("type", "like", `%${type}%`);
+		}
+
+		const cars = await qCars;
+		return cars;
 	}
 
 	async findCar(id: string) {
