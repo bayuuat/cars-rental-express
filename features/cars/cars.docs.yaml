@@ -1,0 +1,226 @@
+tags:
+    - name: Cars
+      description: Cars Operation Model
+      externalDocs:
+          description: Find out more
+          url: http://swagger.io
+paths:
+    /cars:
+        get:
+            tags:
+                - Cars
+            security:
+                - bearerAuth: []
+            summary: Get all cars
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Car"
+                "401":
+                    $ref: "#/components/responses/UnauthorizedError"
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Cars
+            summary: Create new car
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Car"
+            responses:
+                "201":
+                    description: Car created successfully
+                "401":
+                    $ref: "#/components/responses/UnauthorizedError"
+    /cars/{id}:
+        get:
+            security:
+                - bearerAuth: []
+            tags:
+                - Cars
+            summary: Get details of a specific car
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: ID of the car
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Car"
+                "401":
+                    $ref: "#/components/responses/UnauthorizedError"
+                "404":
+                    description: Car not found
+        put:
+            security:
+                - bearerAuth: []
+            tags:
+                - Cars
+            summary: Update details of a specific car
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: ID of the car
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Car"
+            responses:
+                "200":
+                    description: Car updated successfully
+                "401":
+                    $ref: "#/components/responses/UnauthorizedError"
+                "404":
+                    description: Car not found
+        delete:
+            security:
+                - bearerAuth: []
+            tags:
+                - Cars
+            summary: Delete a specific car
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                  description: ID of the car
+            responses:
+                "204":
+                    description: Car deleted successfully
+                "401":
+                    $ref: "#/components/responses/UnauthorizedError"
+                "404":
+                    description: Car not found
+components:
+    schemas:
+        Car:
+            required:
+                - id
+                - plate
+                - manufacture
+                - image
+                - model
+                - type
+                - description
+                - transmission
+                - capacity
+                - rentPerDay
+                - availableAt
+                - available
+                - year
+                - options
+                - specs
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                    example: 9
+                plate:
+                    type: string
+                    example: STL-7347
+                manufacture:
+                    type: string
+                    example: Buick
+                image:
+                    type: string
+                    example: ./images/car09.min.jpg
+                model:
+                    type: string
+                    example: LaCrosse
+                type:
+                    type: string
+                    example: Extended Cab Pickup
+                description:
+                    type: string
+                    example: Rear reading & courtesy lamps. Zone body construction -inc front/rear crumple zones, hood deformation point.
+                transmission:
+                    type: string
+                    example: Automatic
+                capacity:
+                    type: integer
+                    example: 6
+                rentPerDay:
+                    type: string
+                    example: "1000000"
+                availableAt:
+                    type: string
+                    format: date-time
+                    example: "2023-11-24T10:47:42.621Z"
+                available:
+                    type: boolean
+                    example: false
+                year:
+                    type: integer
+                    example: 2012
+                options:
+                    type: array
+                    items:
+                        type: string
+                    example:
+                        - CD (Multi Disc)
+                        - Keyless Entry
+                        - Cassette Player
+                        - Power Windows
+                        - Rear Window Wiper
+                        - CD (Single Disc)
+                        - Third Row Seats
+                specs:
+                    type: array
+                    items:
+                        type: string
+                    example:
+                        - Rear reading & courtesy lamps
+                        - Zone body construction -inc front/rear crumple zones, hood deformation point
+                        - 4-wheel/4-channel anti-lock brake system (ABS)
+                        - Anti-lock 4-wheel performance disc brakes
+                        - 200mm front axle
+                        - Dual front knee airbags
+            xml:
+                name: Car
+    requestBodies:
+        Pet:
+            description: Pet object that needs to be added to the store
+            content:
+                application/json:
+                    schema:
+                        $ref: "#/components/schemas/Pet"
+                application/xml:
+                    schema:
+                        $ref: "#/components/schemas/Pet"
+        UserArray:
+            description: List of user object
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/components/schemas/User"
+    securitySchemes:
+        bearerAuth: # arbitrary name for the security scheme
+            type: http
+            scheme: bearer
+            bearerFormat: JWT # optional, arbitrary value for documentation purposes
+    responses:
+        UnauthorizedError:
+            description: Access token is missing or invalid
