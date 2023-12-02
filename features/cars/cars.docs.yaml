@@ -5,7 +5,7 @@ tags:
           description: Find out more
           url: http://swagger.io
 paths:
-    /cars:
+    /api/cars:
         get:
             tags:
                 - Cars
@@ -40,7 +40,7 @@ paths:
                     description: Car created successfully
                 "401":
                     $ref: "#/components/responses/UnauthorizedError"
-    /cars/{id}:
+    /api/cars/{id}:
         get:
             security:
                 - bearerAuth: []

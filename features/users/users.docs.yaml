@@ -2,7 +2,7 @@ tags:
     - name: Users
       description: Operations about user
 paths:
-    /login:
+    /api/login:
         post:
             tags:
                 - Users
@@ -12,13 +12,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
-                            properties:
-                                email:
-                                    type: string
-                                    format: email
-                                password:
-                                    type: string
+                            $ref: "#/components/schemas/User"
                             required:
                                 - email
                                 - password
@@ -29,7 +23,7 @@ paths:
                     description: Invalid credentials
                 "404":
                     description: User not found
-    /register:
+    /api/register:
         post:
             tags:
                 - Users
@@ -39,13 +33,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
-                            properties:
-                                email:
-                                    type: string
-                                    format: email
-                                password:
-                                    type: string
+                            $ref: "#/components/schemas/User"
                             required:
                                 - email
                                 - password
@@ -54,7 +42,7 @@ paths:
                     description: User registered successfully
                 "400":
                     description: Bad request
-    /profile:
+    /api/profile:
         get:
             tags:
                 - Users
@@ -64,6 +52,23 @@ paths:
             responses:
                 "200":
                     description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    email:
+                                        type: string
+                                        example: agung@binar.com
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    iat:
+                                        type: integer
+                                        example: 1701497390
+                                    exp:
+                                        type: integer
+                                        example: 1701500990
                 "401":
                     description: Unauthorized
 components:
@@ -71,16 +76,12 @@ components:
         User:
             type: object
             properties:
-                id:
-                    type: integer
-                    format: int64
-                    example: 10
                 email:
                     type: string
-                    example: john@email.com
+                    example: agung@binar.com
                 password:
                     type: string
-                    example: "12345"
+                    example: password
             xml:
                 name: user
         ApiResponse:
@@ -96,15 +97,6 @@ components:
             xml:
                 name: "##default"
     requestBodies:
-        Pet:
-            description: Pet object that needs to be added to the store
-            content:
-                application/json:
-                    schema:
-                        $ref: "#/components/schemas/Pet"
-                application/xml:
-                    schema:
-                        $ref: "#/components/schemas/Pet"
         UserArray:
             description: List of user object
             content:

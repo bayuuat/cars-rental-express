@@ -12,6 +12,10 @@ const swaggerDefinition = {
       url: "http://localhost:3000",
       description: "Development server",
     },
+    {
+      url: "https://rental-cars-api.fly.dev",
+      description: "Production server",
+    },
   ],
 };
 
