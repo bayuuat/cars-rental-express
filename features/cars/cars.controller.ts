@@ -75,7 +75,9 @@ class CarsController {
 			}
 
 			const result = await CarsServices.updateCar(id, body);
-			return res.status(200).send(result);
+			if (result) {
+				return res.status(201).send("Success Edit");
+			}
 		} catch (error) {
 			console.error(error);
 			return res.status(500).send({ error: error });
@@ -92,11 +94,13 @@ class CarsController {
 			const car = await CarsModel.query().findById(id);
 
 			if (!car) {
-				return res.status(400).send({ message: "Car not found" });
+				return res.status(404).send({ message: "Car not found" });
 			}
 
 			const result = await CarsServices.deleteCar(id);
-			return res.status(200).send(result);
+			if (result) {
+				return res.status(200).send({ message: "Success delete car" });
+			}
 		} catch (error) {
 			console.error(error);
 			return res.status(500).send({ error: error });

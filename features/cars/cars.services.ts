@@ -3,21 +3,22 @@ import { Request } from "express";
 
 class CarsServices {
 	public async getCars(req: Request) {
-		const { manufacture, model, type } = req.query;
+		const { type, date, time, passanger } = req.query;
 		const qCars = CarsModel.query();
 
-		if (manufacture) {
-			qCars.where("manufacture", "like", `%${manufacture}%`);
+		if (passanger) {
+			qCars.where("capacity", ">=", `${passanger}`);
 		}
-		if (model) {
-			qCars.where("model", "like", `%${model}%`);
+		if (date) {
+			const waktu = `${date} ${time}`;
+			qCars.where("availableAt", ">=", `${waktu}`);
 		}
 		if (type) {
-			qCars.where("type", "like", `%${type}%`);
+			qCars.where("transmission", "=", `${type}`);
 		}
 
 		const cars = await qCars;
-		return cars;
+		return cars.sort((a, b) => a.id - b.id);
 	}
 
 	public async findCar(id: string) {
