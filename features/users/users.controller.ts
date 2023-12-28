@@ -11,7 +11,7 @@ class UsersController {
 			const { email, password } = req.body as Omit<Users, "id">;
 			const user = await usersServices.checkEmail(email);
 
-			if (await argon2.verify(user.password, password)) {
+			if (user && await argon2.verify(user.password, password)) {
 				const token = createJwtToken({ email: user.email, id: user.id });
 				return res.status(200).json({ token });
 			}

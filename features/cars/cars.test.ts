@@ -111,10 +111,7 @@ describe("Test Car Module", () => {
 				Authorization: `Bearer ${token}`,
 				Accept: "application/json",
 			});
-
-    console.log(response);
-    
-
+			
 		expect(response.status).toBe(404);
 	});
 });

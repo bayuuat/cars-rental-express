@@ -4,9 +4,12 @@ import { Model } from "objection";
 import UISwaggerExpress from "swagger-ui-express";
 import { swaggerSpec } from "./generate-docs";
 import knexConfig from "./knexfile";
+import dotenv from "dotenv";
 import cors from "cors";
 import carsRouter from "./features/cars/cars.router";
 import userRouter from "./features/users/users.router";
+
+dotenv.config();
 
 const app: Express = express();
 const port = 3000;

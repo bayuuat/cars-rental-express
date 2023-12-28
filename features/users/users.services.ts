@@ -3,7 +3,7 @@ import { UsersModel } from "./users.model";
 class UsersServices {
 	public async checkEmail(email: string) {
 		try {
-			const user = await UsersModel.query().findOne({ email }).throwIfNotFound();
+			const user = await UsersModel.query().findOne({ email });
 			return user;
 		} catch (error) {
 			console.error(error);
