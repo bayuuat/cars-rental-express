@@ -14,7 +14,7 @@ dotenv.config();
 const app: Express = express();
 const ENV = process.env.NODE_ENV || "development";
 
-const knexInstance = Knex(knexConfig["development"]);
+const knexInstance = Knex(knexConfig[ENV]);
 
 Model.knex(knexInstance);
 
