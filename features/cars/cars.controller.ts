@@ -33,7 +33,7 @@ class CarsController {
 		if (car) {
 			res.status(200).send(car);
 		} else {
-			res.status(400).send({ message: "Car not found" });
+			res.status(404).send({ message: "Car not found" });
 		}
 	}
 
@@ -76,7 +76,7 @@ class CarsController {
 
 			const result = await CarsServices.updateCar(id, body);
 			if (result) {
-				return res.status(201).send("Success Edit");
+				return res.status(201).send({ message: "Success Edit" });
 			}
 		} catch (error) {
 			console.error(error);

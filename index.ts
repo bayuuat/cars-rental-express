@@ -3,7 +3,7 @@ import Knex from "knex";
 import { Model } from "objection";
 import UISwaggerExpress from "swagger-ui-express";
 import { swaggerSpec } from "./generate-docs";
-import * as config from "./knexfile";
+import knexConfig from "./knexfile";
 import cors from "cors";
 import carsRouter from "./features/cars/cars.router";
 import userRouter from "./features/users/users.router";
@@ -12,8 +12,7 @@ const app: Express = express();
 const port = 3000;
 const ENV = process.env.NODE_ENV || "development";
 
-// @ts-expect-error getting environtment
-const knexInstance = Knex(config[ENV]);
+const knexInstance = Knex(knexConfig[ENV]);
 
 Model.knex(knexInstance);
 
@@ -37,3 +36,5 @@ app.all("*", (req, res) => {
 app.listen(port, () => {
 	console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
+
+export default app

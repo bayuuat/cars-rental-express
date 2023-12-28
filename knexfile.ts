@@ -2,7 +2,7 @@ import type { Knex } from "knex";
 
 const config: { [key: string]: Knex.Config } = {
 	development: {
-		client: "postgresql",
+		client: "pg",
 		connection: {
       database: "my_db",
       user: "username",
@@ -38,4 +38,4 @@ const config: { [key: string]: Knex.Config } = {
 	},
 };
 
-module.exports = config;
+export = config;
