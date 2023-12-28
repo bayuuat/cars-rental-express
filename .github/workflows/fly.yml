@@ -12,6 +12,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install
         run: npm ci
+      - name: Generate and store SSH key pair
+        run: |
+          mkdir -p ./key
+          ssh-keygen -t rsa -b 4096 -f ./key/key -N ''
       - name: Create .env file
         run: |
           touch .env
