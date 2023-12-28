@@ -4,12 +4,12 @@
   "description": "",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/server.js",
     "setup": "knex migrate:down && knex migrate:latest && knex seed:run",
     "setup-prod": "knex migrate:down --env production && knex migrate:latest --env production && knex seed:run --env production",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
     "test": "ENV NODE_ENV=development vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "npm run setup && vitest run --coverage"
   },
   "keywords": [],
   "author": "",

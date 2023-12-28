@@ -12,10 +12,9 @@ import userRouter from "./features/users/users.router";
 dotenv.config();
 
 const app: Express = express();
-const port = 3000;
 const ENV = process.env.NODE_ENV || "development";
 
-const knexInstance = Knex(knexConfig[ENV]);
+const knexInstance = Knex(knexConfig["development"]);
 
 Model.knex(knexInstance);
 
@@ -34,10 +33,6 @@ app.use("/api", userRouter);
 
 app.all("*", (req, res) => {
 	res.status(404).json({ error: "Route not found" });
-});
-
-app.listen(port, () => {
-	console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
 
 export default app
