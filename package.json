@@ -9,7 +9,7 @@
     "setup-prod": "knex migrate:down --env production && knex migrate:latest --env production && knex seed:run --env production",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
     "test": "ENV NODE_ENV=development vitest",
-    "coverage": "ENV NODE_ENV=production vitest run --coverage"
+    "coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
