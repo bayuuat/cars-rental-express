@@ -15,7 +15,7 @@ jobs:
       - name: Create .env file
         run: |
           touch .env
-          echo DB_CONNECTION=${{ secrets.DB_CONNECTION }} >> .env
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
       - name: Test Coverage
         run: npm run coverage
         env:
