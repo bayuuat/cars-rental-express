@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import carsRouter from "./features/cars/cars.router";
 import userRouter from "./features/users/users.router";
+import xenditRouter from "./features/xendit/xendit.router";
 
 dotenv.config();
 
@@ -30,9 +31,10 @@ app.get("/", (req, res) => {
 
 app.use("/api", carsRouter);
 app.use("/api", userRouter);
+app.use("/api/xendit", xenditRouter);
 
 app.all("*", (req, res) => {
 	res.status(404).json({ error: "Route not found" });
 });
 
-export default app
+export default app;
